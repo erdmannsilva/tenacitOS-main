@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  mission-control:
+    # Substitua "SEU-USUARIO" pelo seu nome de usuário ou organização no GitHub (exato como aparece no link do repositório)
+    image: ghcr.io/SEU-USUARIO/tenacitos:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      # Mude essas senhas pelo Portainer (Environment variables) ou num arquivo .env
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
+      - AUTH_SECRET=${AUTH_SECRET:-super_secret_key_change_me}
+      # Apontando o diretório de dados para onde o volume está montado
+      - OPENCLAW_DIR=/root/.clawdbot
+      # Configurações de UI (opcionais)
+      - NEXT_PUBLIC_AGENT_NAME=Mission Control
+      - NEXT_PUBLIC_APP_TITLE=TenacitOS
+    volumes:
+      # Monta o volume do clawdbot no diretório configurado em OPENCLAW_DIR
+      - openclaw_config:/root/.clawdbot:ro
+      # Persistência de dados locais do dashboard
+      - mission_control_data:/app/data
+    networks:
+      - beadnet
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.mission-control.rule=Host(`qg.beadatende.com.br`)"
+        - "traefik.http.routers.mission-control.entrypoints=websecure"
+        - "traefik.http.routers.mission-control.tls.certresolver=letsencrypt" # Mude se o seu resolver no Traefik tiver outro nome
+        - "traefik.http.services.mission-control.loadbalancer.server.port=3000"
+        - "traefik.docker.network=beadnet"
+
+volumes:
+  openclaw_config:
+    external: true
+  mission_control_data:
+
+networks:
+  beadnet:
+    external: true
