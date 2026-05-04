@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   mission-control:
-    # Substitua "SEU-USUARIO" pelo seu nome de usuário ou organização no GitHub (exato como aparece no link do repositório)
-    image: ghcr.io/SEU-USUARIO/tenacitos:latest
+    # Imagem gerada automaticamente pelo seu GitHub
+    image: ghcr.io/erdmannsilva/tenacitos-main:latest
     build:
       context: .
       dockerfile: Dockerfile

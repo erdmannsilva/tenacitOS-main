@@ -8,7 +8,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  # Nome da imagem deve ser estritamente minúsculo para o Docker não dar erro
+  IMAGE_NAME: erdmannsilva/tenacitos-main
 
 jobs:
   build-and-push-image:
