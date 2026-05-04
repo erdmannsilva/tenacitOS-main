@@ -10,8 +10,8 @@ services:
     environment:
       - NODE_ENV=production
       # Mude essas senhas pelo Portainer (Environment variables) ou num arquivo .env
-      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin123}
-      - AUTH_SECRET=${AUTH_SECRET:-super_secret_key_change_me}
+      - ADMIN_PASSWORD=Bia23092016181694
+      - AUTH_SECRET=p2Whl5yheDXXzTjm9UPiMwVpLJvbJY2Z
       # Apontando o diretório de dados para onde o volume está montado
       - OPENCLAW_DIR=/root/.clawdbot
       # Configurações de UI (opcionais)
